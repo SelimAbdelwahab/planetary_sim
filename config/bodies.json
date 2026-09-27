@@ -1,0 +1,81 @@
+[
+  {
+    "name": "Sun",
+    "radius": 696340000.0,
+    "mass": 1.9885e30,
+    "distance": 0.0,
+    "velocity": 0.0,
+    "color": [1.0, 0.9, 0.6],
+    "render_scale": 1.0
+  },
+  {
+    "name": "Earth",
+    "radius": 6371000.0,
+    "mass": 5.972e24,
+    "distance": 149600000000.0,
+    "velocity": 29780.0,
+    "color": [0.2, 0.7, 1.0],
+    "render_scale": 20.0,
+    "relative_to": "Sun"
+  },
+  {
+    "name": "Moon",
+    "radius": 1737100.0,
+    "mass": 7.342e22,
+    "distance": 384400000.0,
+    "velocity": 1022.0,
+    "color": [0.9, 0.9, 0.9],
+    "render_scale": 20.0,
+    "relative_to": "Earth"
+  },
+  {
+    "name": "Mars",
+    "radius": 3389500.0,
+    "mass": 6.4171e23,
+    "distance": 227900000000.0,
+    "velocity": 24077.0,
+    "color": [0.9, 0.4, 0.2],
+    "render_scale": 90.0,
+    "relative_to": "Sun"
+  },
+  {
+    "name": "Jupiter",
+    "radius": 69911000.0,
+    "mass": 1.8982e27,
+    "distance": 778570000000.0,
+    "velocity": 13070.0,
+    "color": [0.9, 0.7, 0.5],
+    "render_scale": 5.0,
+    "relative_to": "Sun"
+  },
+  {
+    "name": "Saturn",
+    "radius": 58232000.0,
+    "mass": 5.6834e26,
+    "distance": 1433000000000.0,
+    "velocity": 9680.0,
+    "color": [0.9, 0.8, 0.5],
+    "render_scale": 5.0,
+    "relative_to": "Sun"
+  },
+  {
+    "name": "Uranus",
+    "radius": 25362000.0,
+    "mass": 8.681e25,
+    "distance": 2872000000000.0,
+    "velocity": 6800.0,
+    "color": [0.7, 0.8, 0.9],
+    "render_scale": 10.0,
+    "relative_to": "Sun"
+  },
+  {
+    "name": "Neptune",
+    "radius": 24622000.0,
+    "mass": 1.02413e26,
+    "distance": 4495000000000.0,
+    "velocity": 5430.0,
+    "color": [0.3, 0.5, 1.0],
+    "render_scale": 10.0,
+    "relative_to": "Sun"
+  }
+]
