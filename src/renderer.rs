@@ -58,13 +58,12 @@ pub struct Renderer {
 }
 
 impl Renderer {
-    /// Create renderer and return the Surface separately to avoid lifetimes on the struct.
+    /// Returns the renderer and surface. The window must outlive the surface.
     pub async fn new(window: &Window, camera_pos: glam::Vec3) -> (Self, wgpu::Surface<'static>) {
         let size = window.inner_size();
 
-        // Instance, Surface, Adapter, Device, Queue
         let instance = wgpu::Instance::default();
-        // Create a surface with a 'static lifetime by asserting the window outlives the surface
+        // The caller must keep the window alive until the surface is dropped.
         let surface = unsafe {
             #[allow(unused_unsafe)]
             instance
@@ -87,7 +86,6 @@ impl Renderer {
             }
         ).await.expect("Failed to create device");
 
-        // Surface configuration
         let surface_caps = surface.get_capabilities(&adapter);
         let surface_format = surface_caps.formats.iter()
             .copied()
@@ -105,7 +103,6 @@ impl Renderer {
         };
         surface.configure(&device, &config);
 
-        // Shared resources & common bind group layouts
         let mut resources = ResourceManager::new();
         let cam_bgl_local = device.create_bind_group_layout(&wgpu::BindGroupLayoutDescriptor {
             label: Some("Camera BGL"),
@@ -122,7 +119,6 @@ impl Renderer {
         });
         let obj_bgl = resources.get_object_bgl(&device);
 
-        // Camera uniform (view-projection)
         #[repr(C)]
         #[derive(Clone, Copy, bytemuck::Pod, bytemuck::Zeroable)]
         struct CameraUBO { view_proj: [[f32; 4]; 4] }
@@ -141,7 +137,6 @@ impl Renderer {
             entries: &[wgpu::BindGroupEntry { binding: 0, resource: camera_buffer.as_entire_binding() }],
         });
 
-        // Depth buffer
         let depth_format = wgpu::TextureFormat::Depth32Float;
         let depth_texture = device.create_texture(&wgpu::TextureDescriptor {
             label: Some("Depth Texture"),
@@ -155,7 +150,6 @@ impl Renderer {
         });
         let depth_view = depth_texture.create_view(&wgpu::TextureViewDescriptor::default());
 
-        // Shader and pipeline
         let shader = device.create_shader_module(wgpu::include_wgsl!("shaders/basic.wgsl"));
         let pipeline_layout = device.create_pipeline_layout(&wgpu::PipelineLayoutDescriptor {
             label: Some("Render Pipeline Layout"),

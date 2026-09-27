@@ -1,5 +1,3 @@
-// src/shaders/basic.wgsl
-
 struct VSIn {
   @location(0) position : vec3<f32>,
 };

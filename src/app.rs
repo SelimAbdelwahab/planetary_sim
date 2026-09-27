@@ -9,7 +9,6 @@ use winit::keyboard::{KeyCode, PhysicalKey};
 use std::time::Instant;
 use glam::{Quat, Vec2, Vec3};
 
-// Bring internal modules into scope for this binary crate
 mod renderer;
 mod renderable;
 mod resource;
@@ -134,13 +133,10 @@ impl ApplicationHandler for Application
 {
     fn resumed(&mut self, event_loop: &ActiveEventLoop) 
     {
-        // Create the OS window (winit 0.30 style)
         let attrs = WindowAttributes::default().with_title("Planetary Simulator");
         let window = event_loop.create_window(attrs).expect("Failed to create window");
 
-        // Initialize Renderer now that we have a Window
         let (mut renderer, surface) = block_on(Renderer::new(&window, CAMERA_START_POS));
-        // Ensure the window outlives the surface by storing it first
         self.window = Some(window);
         self.surface = Some(surface);
 
@@ -245,7 +241,6 @@ impl ApplicationHandler for Application
                 }
             }
             WindowEvent::RedrawRequested => {
-                // Smooth movement: apply held keys each frame
                 let now = Instant::now();
                 let delta = (now - self.last_frame).as_secs_f32().clamp(0.0, 0.1);
                 
@@ -257,7 +252,6 @@ impl ApplicationHandler for Application
 
                 self.last_frame = now;
 
-                // Update camera movement first
                 if let Some(renderer) = self.renderer.as_mut() {
                     let speed = if self.shift_pressed && !self.ctrl_pressed {
                         CAMERA_SPEED_FAST
@@ -274,7 +268,6 @@ impl ApplicationHandler for Application
                     renderer.update_camera(dt);
                 }
 
-                // Advance physics before rendering
                 let entity_buffer: Vec<Entity> = self.objects.iter().map(|obj| obj.entity()).collect();
                 self.physics.step(&mut self.world, &entity_buffer, dt);
 
@@ -317,7 +310,6 @@ impl ApplicationHandler for Application
 
     fn about_to_wait(&mut self, _event_loop: &ActiveEventLoop) 
     {
-        // Continuous redraw
         if let Some(window) = &self.window {
             window.request_redraw();
         }
